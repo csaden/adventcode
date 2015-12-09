@@ -28,7 +28,7 @@ toggle 0,0 through 999,999 would increase the total brightness by 2000000.
 var fs = require("fs");
 var input = fs.readFileSync("puzzle6_data.txt").toString();
 input = input.split("\n");
-input.pop();
+
 input = input.map(function(line) {
 	return line.split(" ").filter(function(item) {
 		return !(item === "turn" || item === "through");

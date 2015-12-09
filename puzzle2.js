@@ -26,8 +26,6 @@ var fs = require('fs');
 
 var input = fs.readFileSync('puzzle2_data.txt').toString();
 input = input.split('\n');
-// remove new line at end of input data
-input.pop();
 
 var wrappingPaper = input.reduce(function(prev, curr) {
 	var dims = curr.split('x').map(function(dim) { return parseInt(dim, 10)});

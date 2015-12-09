@@ -60,7 +60,6 @@ what signal is ultimately provided to wire a?
 const fs = require("fs");
 var input = fs.readFileSync("puzzle7_datab.txt").toString();
 input = input.split("\n");
-input.pop();
 
 var wires = createWireMap(input);
 console.log(calculate());

@@ -34,7 +34,6 @@ How many strings are nice?
 var fs = require('fs');
 var input = fs.readFileSync('puzzle5_data.txt').toString();
 input = input.split('\n');
-input.pop();
 
 console.log(countNice(input));
 
