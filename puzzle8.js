@@ -42,25 +42,25 @@ string code (2 + 5 + 10 + 6 = 23) minus the total number of characters in
 memory for string values (0 + 3 + 7 + 1 = 11) is 23 - 11 = 12.
 */
 
-const fs = require("fs");
-var input = fs.readFileSync("puzzle8_data.txt").toString();
-input = input.split("\n");
+var fs = require('fs');
+var input = fs.readFileSync('puzzle8_data.txt').toString();
+input = input.split('\n');
 
 console.log(countStringCodeChars(input)- countStringMemoryChars(input));
 
 function countStringCodeChars(data) {
-	return data.reduce(function(prev, line) {
-		return prev += line.length;
-	}, 0);
+    return data.reduce(function(prev, line) {
+        return prev += line.length;
+    }, 0);
 }
 
 function countStringMemoryChars(data) {
-	return data.reduce(function(prev, line) {
-		line = line.replace(/[\\]{2}/g, ".");
-		line = line.replace(/\\"/g, "q");
-		line = line.replace(/\\x[0-9a-f][0-9a-f]/gi, "S");
-		return prev += line.length - 2;
-	}, 0);
+    return data.reduce(function(prev, line) {
+        line = line.replace(/[\\]{2}/g, '.');
+        line = line.replace(/\\"/g, 'q');
+        line = line.replace(/\\x[0-9a-f][0-9a-f]/gi, 'S');
+        return prev += line.length - 2;
+    }, 0);
 }
 
 /*
@@ -85,25 +85,26 @@ length (6 + 9 + 16 + 11 = 42) minus the characters in the original code
 representation (23, just like in the first part of this puzzle) is 42 - 23 = 19.
 
 */
+
 console.log(countEncodedChars(input) - countStringCodeChars(input));
 
 function countEncodedChars(data) {
-	return data.reduce(function(prev, line) {
-		line = mapLine(line);
-		return prev += line.length + 2;
-	}, 0);
+    return data.reduce(function(prev, line) {
+        line = mapLine(line);
+        return prev += line.length + 2;
+    }, 0);
 }
 
 function mapLine(line) {
-	var newLine = "";
-	for (var i = 0; i < line.length; i++) {
-		if (line[i] === '"') {
-			newLine += '\\"';
-		} else if (line[i] === "\\") {
-			newLine += '\\\\';
-		} else {
-			newLine += line[i];
-		}
-	};
-	return newLine;
+    var newLine = '';
+    for (var i = 0; i < line.length; i++) {
+        if (line[i] === '"') {
+            newLine += '\\"';
+        } else if (line[i] === '\\') {
+            newLine += '\\\\';
+        } else {
+            newLine += line[i];
+        }
+    }
+    return newLine;
 }

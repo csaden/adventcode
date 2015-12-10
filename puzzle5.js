@@ -38,24 +38,24 @@ input = input.split('\n');
 console.log(countNice(input));
 
 function countNice(data) {
-	return data.filter(isNice).length;
+    return data.filter(isNice).length;
 }
 
 function isNice(str) {
-	return isValid(str) && hasThreeVowels(str) && hasDoubleLetter(str);
+    return isValid(str) && hasThreeVowels(str) && hasDoubleLetter(str);
 }
 
 function hasThreeVowels(str) {
-	var vowels = str.match(/[aeiou]/g);
-	return vowels && vowels.length > 2 ? true : false;
+    var vowels = str.match(/[aeiou]/g);
+    return vowels && vowels.length > 2 ? true : false;
 }
 
 function hasDoubleLetter(str) {
-	return (/([a-z])\1/).test(str);
+    return (/([a-z])\1/).test(str);
 }
 
 function isValid(str) {
-	return !(/ab|cd|pq|xy/).test(str);
+    return !(/ab|cd|pq|xy/).test(str);
 }
 
 /*
@@ -93,17 +93,17 @@ How many strings are nice under these new rules?
 console.log(countNice2(input));
 
 function countNice2(data) {
-	return data.filter(isNice2).length;
+    return data.filter(isNice2).length;
 }
 
 function isNice2(str) {
-	return hasTwoLetterPairs(str) && hasThreeLetterPalindrome(str);
+    return hasTwoLetterPairs(str) && hasThreeLetterPalindrome(str);
 }
 
 function hasTwoLetterPairs(str) {
-	return (/([a-z][a-z])[a-z]*\1/).test(str);
+    return (/([a-z][a-z])[a-z]*\1/).test(str);
 }
 
 function hasThreeLetterPalindrome(str) {
-	return (/([a-z])[a-z]\1/).test(str);
+    return (/([a-z])[a-z]\1/).test(str);
 }

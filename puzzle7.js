@@ -12,8 +12,8 @@ source, but can provide its signal to multiple destinations. A gate provides
 no signal until all of its inputs have a signal.
 
 The included instructions booklet describe how to connect the parts together:
-	x AND y -> z means to connect wires x and y to an AND gate, and
-	then connect its output to wire z.
+    x AND y -> z means to connect wires x and y to an AND gate, and
+    then connect its output to wire z.
 
 For example:
 
@@ -57,67 +57,57 @@ In little Bobby's kit's instructions booklet (provided as your puzzle input),
 what signal is ultimately provided to wire a?
 */
 
-const fs = require("fs");
-var input = fs.readFileSync("puzzle7_datab.txt").toString();
-input = input.split("\n");
+var fs = require('fs');
+var input = fs.readFileSync('puzzle7_datab.txt').toString();
+input = input.split('\n');
 
 var wires = createWireMap(input);
-console.log(calculate());
+console.log(calculate('a'));
+
+var input = fs.readFileSync('puzzle7_datab.txt').toString();
+input = input.split('\n');
+console.log(calculate('b'));
 
 function createWireMap(data) {
-	var wires = {};
-	data.forEach(function(line) {
-		var data = line.split('->');
-		wires[data[1].trim()] = data[0].trim().split(' ');
-	});
-	return wires;
+    var wires = {};
+    data.forEach(function(line) {
+        var data = line.split('->');
+        wires[data[1].trim()] = data[0].trim().split(' ');
+    });
+    return wires;
 }
 // unsigned int16 [0, 2^16 - 1]  2^16 - 1 = 65535
-//http://www.2ality.com/2012/02/js-integers.html
-function toInteger(x) {
-	x = Number(x);
-	return x < 0 ? Math.ceil(x) : Math.floor(x);
-}
+function calculate(wire) {
+    var values = {};
+    return calc(wire);
 
-function modulo(a, b) {
-	return a - Math.floor(a/b)*b;
-}
-
-function toUint16(x) {
-	return modulo(toInteger(x), Math.pow(2, 16));
-}
-
-function calculate() {
-	var values = {};
-	return calc("a");
-
-	function calc(wire) {
-		var res, instr;
-		if (values.hasOwnProperty(wire)) {
-			res = values[wire];
-		} else if (typeof wire === "string" && /^[0-9]+$/.test(wire)) {
-			res = parseInt(wire, 10);
-		} else {
-			instr = wires[wire];
-			if (instr.length === 1) {
-				res = calc(instr[0]);
-			} else if (instr.length === 2) {
-				res = 65535 - calc(instr[1]);
-			} else {
-				if (instr[1] === "AND") {
-					res = calc(instr[0]) & calc(instr[2]);
-				} else if (instr[1] === "OR") {
-					res = calc(instr[0]) | calc(instr[2]);
-				} else if (instr[1] === "LSHIFT") {
-					res = calc(instr[0]) << calc(instr[2]);
-				} else {
-					res = calc(instr[0]) >> calc(instr[2]);
-				}
-			}
-			values[wire] = res;
-		}
-		return res;
-	}
+    function calc(wire) {
+        var res, instr;
+        if (values.hasOwnProperty(wire)) {
+            res = values[wire];
+        } else if (typeof wire === 'string' && /^[0-9]+$/.test(wire)) {
+            res = parseInt(wire, 10);
+        } else {
+            instr = wires[wire];
+            if (instr.length === 1) {
+                res = calc(instr[0]);
+            } else if (instr.length === 2) {
+                res = 65535 - calc(instr[1]);
+            } else {
+                if (instr[1] === 'AND') {
+                    res = calc(instr[0]) & calc(instr[2]);
+                } else if (instr[1] === 'OR') {
+                    res = calc(instr[0]) | calc(instr[2]);
+                } else if (instr[1] === 'LSHIFT') {
+                    res = calc(instr[0]) << calc(instr[2]);
+                } else {
+                    res = calc(instr[0]) >> calc(instr[2]);
+                }
+            }
+            values[wire] = res;
+        }
+        return res;
+    }
 }
 
 /*

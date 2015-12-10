@@ -10,7 +10,7 @@ Fortunately, every present is a box (a perfect right rectangular prism),
 which makes calculating the required wrapping paper for each gift a
 little easier: find the surface area of the box, which is 2*l*w + 2*w*h + 2*h*l.
 The elves also need a little extra paper for each present:
-	the area of the smallest side.
+    the area of the smallest side.
 
 For example:
 
@@ -28,18 +28,19 @@ var input = fs.readFileSync('puzzle2_data.txt').toString();
 input = input.split('\n');
 
 var wrappingPaper = input.reduce(function(prev, curr) {
-	var dims = curr.split('x').map(function(dim) { return parseInt(dim, 10)});
-	console.log(dims);
-	prev = prev + calcSurfaceArea(...dims) + calcExtraSlack(...dims);
-	return prev;
-}, 0)
+    var dims = curr.split('x').map(function(dim) {
+        return parseInt(dim, 10);
+    });
+    prev = prev + calcSurfaceArea(...dims) + calcExtraSlack(...dims);
+    return prev;
+}, 0);
 
 function calcSurfaceArea(l, w, h) {
-	return (2 * l * w) + (2 * w * h) + (2 * h * l);
+    return (2*l*w) + (2*w*h) + (2*h*l);
 }
 
 function calcExtraSlack(l, w, h) {
-	return Math.min(l*w, w*h, l*h);
+    return Math.min(l*w, w*h, l*h);
 }
 
 console.log(wrappingPaper);
@@ -67,17 +68,19 @@ How many total feet of ribbon should they order?
  */
 
 var ribbon = input.reduce(function(prev, curr) {
-	var dims = curr.split('x').map(function(dim) { return parseInt(dim, 10)});
-	prev = prev + calcRibbon(...dims) + calcRibbonBow(...dims);
-	return prev;
-}, 0)
+    var dims = curr.split('x').map(function(dim) {
+        return parseInt(dim, 10);
+    });
+    prev = prev + calcRibbon(...dims) + calcRibbonBow(...dims);
+    return prev;
+}, 0);
 
 function calcRibbon(l, w, h) {
-	return Math.min(2*l + 2*w, 2*w + 2*h, 2*l + 2*h);
+    return Math.min(2*l + 2*w, 2*w + 2*h, 2*l + 2*h);
 }
 
 function calcRibbonBow(l, w, h) {
-	return l*w*h;
+    return l*w*h;
 }
 
 console.log(ribbon);

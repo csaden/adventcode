@@ -1,0 +1,23 @@
+{
+  "name": "adventcode",
+  "version": "1.0.0",
+  "description": "code challenges",
+  "main": "puzzle1.js",
+  "dependencies": {
+    "md5": "^2.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^5.0.0-beta6",
+    "eslint": "^1.10.3"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csaden/adventcode.git"
+  },
+  "author": "csaden",
+  "bugs": {
+    "url": "https://github.com/csaden/adventcode/issues"
+  },
+  "homepage": "https://github.com/csaden/adventcode#readme"
+}
