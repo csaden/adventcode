@@ -27,3 +27,90 @@ is 605 in this example.
 What is the distance of the shortest route?
 
 */
+var fs = require('fs');
+
+var Graph = function() {
+    this.graph = {};
+};
+
+Graph.prototype.hasNode = function(node) {
+    return this.graph.hasOwnProperty(node);
+};
+
+Graph.prototype.addNode = function(node) {
+    if (!this.hasNode(node)) {
+        this.graph[node] = [];
+    }
+};
+
+Graph.prototype.addEdge = function(toNode, fromNode, distance) {
+    this.addNode(toNode);
+    this.addNode(fromNode);
+    this.graph[fromNode].push({
+        'to': toNode,
+        'from': fromNode,
+        'd': parseInt(distance, 10)
+    });
+    this.graph[toNode].push({
+        'to': fromNode,
+        'from': toNode,
+        'd': parseInt(distance, 10)
+    });
+};
+
+//http://stackoverflow.com/questions/9960908/permutations-in-javascript
+function permutator(inputArr) {
+    const results = [];
+    function permute(arr, memo) {
+        let cur; memo = memo || [];
+        for (let i = 0; i < arr.length; i++) {
+            cur = arr.splice(i, 1);
+            if (arr.length === 0) {
+                results.push(memo.concat(cur));
+            }
+            permute(arr.slice(), memo.concat(cur));
+            arr.splice(i, 0, cur[0]);
+        }
+        return results;
+    }
+    return permute(inputArr);
+}
+
+const CITIES = [
+    'AlphaCentauri',
+    'Snowdin',
+    'Tambi',
+    'Faerun',
+    'Norrath',
+    'Straylight',
+    'Tristram',
+    'Arbre'
+];
+
+let routes = permutator(CITIES);
+let g = new Graph();
+
+let input = fs.readFileSync('puzzle9_data.txt').toString();
+input.split('\n').map(function(edge) {
+    var path;
+    edge = edge.replace(/to /, '');
+    edge = edge.replace(/= /, '');
+    path = edge.split(' ');
+    g.addEdge(path[0], path[1], path[2]);
+});
+
+console.log(Math.min.apply(null, routes.map(getRouteDistance)));
+console.log(Math.max.apply(null, routes.map(getRouteDistance)));
+
+function getRouteDistance(route) {
+    var dist = 0, edges;
+    for (var i = 0, l = route.length; i < l - 1; i++) {
+        edges = g.graph[route[i]];
+        edges.forEach(function(edge) {
+            if (edge.to === route[i + 1]) {
+                dist += edge.d;
+            }
+        });
+    }
+    return dist;
+}
