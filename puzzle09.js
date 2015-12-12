@@ -27,9 +27,9 @@ is 605 in this example.
 What is the distance of the shortest route?
 
 */
-var fs = require('fs');
+let fs = require('fs');
 
-var Graph = function() {
+let Graph = function() {
     this.graph = {};
 };
 
@@ -43,19 +43,19 @@ Graph.prototype.addNode = function(node) {
     }
 };
 
-Graph.prototype.addEdge = function(toNode, fromNode, distance) {
-    this.addNode(toNode);
-    this.addNode(fromNode);
-    this.graph[fromNode].push({
+Graph.prototype.makeEdge = function(toNode, fromNode, distance) {
+    return {
         'to': toNode,
         'from': fromNode,
         'd': parseInt(distance, 10)
-    });
-    this.graph[toNode].push({
-        'to': fromNode,
-        'from': toNode,
-        'd': parseInt(distance, 10)
-    });
+    };
+};
+
+Graph.prototype.addEdge = function(toNode, fromNode, distance) {
+    this.addNode(toNode);
+    this.addNode(fromNode);
+    this.graph[fromNode].push(this.makeEdge(toNode, fromNode, distance));
+    this.graph[toNode].push(this.makeEdge(fromNode, toNode, distance));
 };
 
 //http://stackoverflow.com/questions/9960908/permutations-in-javascript
@@ -92,7 +92,7 @@ let g = new Graph();
 
 let input = fs.readFileSync('puzzle9_data.txt').toString();
 input.split('\n').map(function(edge) {
-    var path;
+    let path;
     edge = edge.replace(/to /, '');
     edge = edge.replace(/= /, '');
     path = edge.split(' ');
@@ -103,8 +103,8 @@ console.log(Math.min.apply(null, routes.map(getRouteDistance)));
 console.log(Math.max.apply(null, routes.map(getRouteDistance)));
 
 function getRouteDistance(route) {
-    var dist = 0, edges;
-    for (var i = 0, l = route.length; i < l - 1; i++) {
+    let dist = 0, edges;
+    for (let i = 0, l = route.length; i < l - 1; i++) {
         edges = g.graph[route[i]];
         edges.forEach(function(edge) {
             if (edge.to === route[i + 1]) {
