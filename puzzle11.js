@@ -44,9 +44,17 @@ the passwords that start with ghi..., since i is not allowed.
 Given Santa's current password (your puzzle input), what should his next
 password be?
 */
-const letters = 'abcdefghijklmnopqrstuvwxyz';
-const oldPassword = 'hepxcrrq';
-getNewPassword(oldPassword);
+
+/*
+--- Part Two ---
+
+Santa's password expired again. What's the next one?
+
+*/
+
+
+console.log(getNewPassword('hepxcrrq'));
+console.log(getNewPassword(getNextPassword('hepxxyzz')));
 
 function getNewPassword(password) {
     while (!isValidPassword(password)) {
@@ -56,7 +64,22 @@ function getNewPassword(password) {
 }
 
 function getNextPassword(password) {
+    let zString = password.match(/z+$/), zCount, aString = '';
+    if (zString) {
+        zCount = zString[0].length;
+        for (var i=0; i<zCount; i++) {
+            aString += 'a';
+        }
+        password = password.slice(0, -zCount-1) +  getNextLetter(password.substr(-zCount-1, 1)) + aString;
+    } else {
+        password = password.slice(0, -1) + getNextLetter(password.substr(-1));
+    }
+    return password;
+}
 
+function getNextLetter(char) {
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    return letters[(letters.indexOf(char) + 1) % letters.length];
 }
 
 function isValidPassword(password) {
@@ -73,6 +96,7 @@ function hasCharPair(password) {
 }
 
 function hasThreeConsecutiveChars(password) {
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
     for (var i=0, l=password.length; i<l-3; i++) {
         if (letters.indexOf(password.substring(i, i+3)) > -1) {
             return true;
