@@ -53,6 +53,7 @@ var Reindeer = function(name, speed, travelTime, restTime) {
     this.speed = parseInt(speed, 10);
     this.travelTime = parseInt(travelTime, 10);
     this.restTime = parseInt(restTime, 10);
+    this.points = 0;
 };
 
 Reindeer.prototype.calcDistance = function(time) {
@@ -86,6 +87,46 @@ win (if the race ended at 1000 seconds).
 Again given the descriptions of each reindeer (in your puzzle input), after
 exactly 2503 seconds, how many points does the winning reindeer have?
  */
-Reindeer.prototype.calcPoints = function(time) {
-
+var getWinningReindeer = function(reindeer) {
+    let maxPoints = -Infinity;
+    reindeer.forEach(function(r) {
+        if (r.points > maxPoints) {
+            maxPoints = r.points;
+        }
+    });
+    return maxPoints;
 };
+
+var getAllIndices = function(array, element) {
+    let indices = [];
+    let i = array.indexOf(element);
+    while (i != -1) {
+        indices.push(i);
+        i = array.indexOf(element, i + 1);
+    }
+    return indices;
+};
+
+var addPoints = function(reindeer, time) {
+    let currMaxDistance, distances;
+    distances = reindeer.map(function(r) {
+        return r.calcDistance(time);
+    });
+    currMaxDistance = Math.max.apply(null, distances);
+    // find indices (i) in distance array that have currMaxDistance
+    getAllIndices(distances, currMaxDistance).forEach(function(curr) {
+        // add one point to each reindeer at index i
+        reindeer[curr].points += 1;
+    });
+};
+
+var main2 = function(time) {
+    let reindeer = processData('puzzle14_data.txt'), curr = 0;
+    while (curr < time) {
+        curr++;
+        addPoints(reindeer, curr);
+    }
+    return getWinningReindeer(reindeer);
+};
+
+console.log(main2(2503));
